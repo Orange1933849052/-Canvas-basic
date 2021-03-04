@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #sentText{
+            width: 300px;
+            height: 30px;
+        }
+        span{
+            position: absolute;
+            color:blue;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <video src="./云牧-痒2.mp4" controls width="600" height="600">
+            <source src="./云牧-痒2.mp4">
+        </video>
+    </div>
+    <div class="comment">
+        <input type="text" id="sendText" placeholder="爆发你的小宇宙吧">
+        <button id="sendBtn">发送</button>
+    </div>
+    <script>
+        let video = document.querySelector('video');
+        let container = document.getElementsByClassName('container')[0];
+        let sentText =document.querySelector('input');
+        let sendBtn = document.querySelector('button');
+
+        let random =function(start,end){
+            return Math.floor(Math.random()*(end-start +1)) + start;
+        }
+        
+        let danmu = function(){
+            let span = document.createElement('span');
+            span.innerHTML = sendText.value;
+            sendText.value = "";
+            let speed = random(5,10);
+            span.style.left = video.width + "px" ;
+            let totalHeight = video.offsetTop + video.height ;
+            span.style.top = random(video.offsetTop + 60,totalHeight -15)+ 'px';
+            container.appendChild(span);
+            let stopTime =setInterval(function(){
+                span.style.left = parseInt(span.style.left) - speed + "px";
+                if(parseInt(span.style.left)<0){
+                    clearInterval(stopTime);
+                    container.removeChild(span)
+                }
+            },50)
+        }
+        sendBtn.onclick = danmu;
+        document.onkeydown = function(e){
+            if(e.keyCode === 13){
+                danmu();
+            }
+        }
+    </script>
+</body>
+</html>
